@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Replace form with success message
                 form.innerHTML = `
           <div style="text-align:center;padding:3rem 1rem;">
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1565c0,#29b6f6);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#cc3333,#e04040);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <h3 style="margin-bottom:.5rem;">Thank You!</h3>
