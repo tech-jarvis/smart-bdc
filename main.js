@@ -97,11 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ---------- Contact Form Validation ---------- */
+    /* ---------- Contact Form → Resend API ---------- */
     const form = document.getElementById('contactForm');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
             // Basic validation
             let valid = true;
             form.querySelectorAll('[required]').forEach(input => {
@@ -112,23 +113,62 @@ document.addEventListener('DOMContentLoaded', () => {
                     input.style.borderColor = '';
                 }
             });
-            // Email check
-            const email = form.querySelector('[type="email"]');
-            if (email && email.value && !/^\S+@\S+\.\S+$/.test(email.value)) {
-                email.style.borderColor = '#e53935';
+            const emailInput = form.querySelector('[type="email"]');
+            if (emailInput && emailInput.value && !/^\S+@\S+\.\S+$/.test(emailInput.value)) {
+                emailInput.style.borderColor = '#e53935';
                 valid = false;
             }
-            if (valid) {
-                // Replace form with success message
-                form.innerHTML = `
-          <div style="text-align:center;padding:3rem 1rem;">
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#cc3333,#e04040);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <h3 style="margin-bottom:.5rem;">Thank You!</h3>
-            <p style="color:#536171;margin:0 auto;">We've received your request. A Smart BDC specialist will be in touch within 24 hours.</p>
-          </div>
-        `;
+
+            if (!valid) return;
+
+            // Gather form data
+            const payload = {
+                dealership: form.querySelector('#dealership').value.trim(),
+                contactName: form.querySelector('#contactName').value.trim(),
+                email: form.querySelector('#email').value.trim(),
+                phone: form.querySelector('#phone').value.trim(),
+                leadVolume: form.querySelector('#leadVolume').value,
+                crm: form.querySelector('#crm').value,
+                message: form.querySelector('#message').value.trim()
+            };
+
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.style.opacity = '.7';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await res.json();
+
+                if (result.success) {
+                    form.innerHTML = `
+                      <div style="text-align:center;padding:3rem 1rem;">
+                        <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#cc3333,#e04040);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <h3 style="margin-bottom:.5rem;">Thank You!</h3>
+                        <p style="color:#52525e;margin:0 auto;">We've received your request. A Smart BDC specialist will be in touch within 24 hours.</p>
+                      </div>
+                    `;
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.opacity = '1';
+                    alert(result.error || 'Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                submitBtn.style.opacity = '1';
+                alert('Network error. Please check your connection and try again.');
             }
         });
     }
