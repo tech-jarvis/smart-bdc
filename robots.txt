@@ -1,0 +1,5 @@
+# Smart BDC — robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://smartbdcltd.com/sitemap.xml
