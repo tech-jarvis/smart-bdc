@@ -88,11 +88,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /* ---------- Hero Carousel ---------- */
+    const carousel = document.getElementById('heroCarousel');
+    if (carousel) {
+        const slides = carousel.querySelectorAll('.carousel__slide');
+        const dots = carousel.querySelectorAll('.carousel__dot');
+        const prevBtn = carousel.querySelector('.carousel__arrow--prev');
+        const nextBtn = carousel.querySelector('.carousel__arrow--next');
+        let current = 0;
+        let autoTimer = null;
+        const INTERVAL = 6000; // 6 seconds per slide
+
+        function goToSlide(index) {
+            // Remove active from all
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            // Set new active
+            current = (index + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            dots[current].classList.add('active');
+
+
+        }
+
+        function nextSlide() {
+            goToSlide(current + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(current - 1);
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoTimer = setInterval(nextSlide, INTERVAL);
+
+        }
+
+        function stopAutoPlay() {
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+        }
+
+        // Arrow navigation
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+
+        // Dot navigation
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.getAttribute('data-slide'), 10);
+                goToSlide(idx);
+                startAutoPlay();
+            });
+        });
+
+        // Pause on hover
+        carousel.addEventListener('mouseenter', stopAutoPlay);
+        carousel.addEventListener('mouseleave', startAutoPlay);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { prevSlide(); startAutoPlay(); }
+            if (e.key === 'ArrowRight') { nextSlide(); startAutoPlay(); }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) { nextSlide(); } else { prevSlide(); }
+                startAutoPlay();
+            }
+        }, { passive: true });
+
+        // Initialize auto-play
+        startAutoPlay();
+    }
+
+
     /* ---------- Active Nav Link ---------- */
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPath = window.location.pathname;
     document.querySelectorAll('.navbar__links a').forEach(link => {
         const href = link.getAttribute('href');
-        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+        if (!href || href.startsWith('#')) return;
+        if (href === '/' && (currentPath === '/' || currentPath === '/index.html')) {
+            link.classList.add('active');
+        } else if (href !== '/' && currentPath.startsWith(href)) {
             link.classList.add('active');
         }
     });

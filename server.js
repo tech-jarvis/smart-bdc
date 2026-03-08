@@ -92,7 +92,7 @@ app.post('/api/contact', async (req, res) => {
 
     // Send via Resend
     const { data, error } = await resend.emails.send({
-      from: 'Smart BDC <onboarding@resend.dev>',
+      from: `Smart BDC <${process.env.NOTIFICATION_EMAIL}>`,
       to: [process.env.NOTIFICATION_EMAIL],
       subject: `🚗 New Demo Request — ${dealership}`,
       html: htmlContent,

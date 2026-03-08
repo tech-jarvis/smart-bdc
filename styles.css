@@ -497,6 +497,215 @@ p {
   }
 }
 
+/* ---------- Hero Carousel ---------- */
+.hero--carousel {
+  padding-top: 0;
+  min-height: 100vh;
+}
+
+.carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.carousel__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s cubic-bezier(.4, 0, .2, 1), visibility 0s 1.2s;
+  will-change: opacity, transform;
+}
+
+.carousel__slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.2s cubic-bezier(.4, 0, .2, 1), visibility 0s;
+  animation: kenBurns 7s ease-in-out forwards;
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.carousel__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      rgba(26, 26, 46, 0.82) 0%,
+      rgba(26, 26, 46, 0.65) 40%,
+      rgba(58, 26, 26, 0.72) 100%);
+  z-index: 1;
+}
+
+.carousel__slide .container {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 72px;
+}
+
+.carousel__slide .hero__content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .8s .3s var(--ease), transform .8s .3s var(--ease);
+}
+
+.carousel__slide.active .hero__content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Navigation Arrows */
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+
+.carousel__arrow svg {
+  stroke: var(--white);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.carousel__arrow:hover {
+  background: rgba(255, 255, 255, .2);
+  border-color: rgba(255, 255, 255, .3);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel__arrow--prev {
+  left: 2rem;
+}
+
+.carousel__arrow--next {
+  right: 2rem;
+}
+
+/* Dot Indicators */
+.carousel__dots {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: .75rem;
+}
+
+.carousel__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .3);
+  border: 2px solid rgba(255, 255, 255, .5);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  padding: 0;
+}
+
+.carousel__dot:hover {
+  background: rgba(255, 255, 255, .5);
+}
+
+.carousel__dot.active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(255, 82, 82, .5);
+}
+
+/* Progress Bar */
+.carousel__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, .1);
+  z-index: 10;
+}
+
+.carousel__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), #ff8a80);
+  width: 0%;
+  transition: width .1s linear;
+}
+
+.carousel__progress-bar.animating {
+  animation: progressFill 6s linear forwards;
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* Carousel mobile adjustments */
+@media (max-width: 768px) {
+  .carousel__arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel__arrow--prev {
+    left: 1rem;
+  }
+
+  .carousel__arrow--next {
+    right: 1rem;
+  }
+
+  .carousel__dots {
+    bottom: 1.5rem;
+  }
+
+  .carousel__slide .container {
+    padding-top: 72px;
+    padding-bottom: 4rem;
+  }
+}
+
 .hero__content {
   position: relative;
   z-index: 2;
@@ -537,7 +746,8 @@ p {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  z-index: 1;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .hero__particles span {
@@ -612,6 +822,7 @@ p {
   position: relative;
   z-index: 1;
 }
+
 
 /* Section background treatments (eye-catching) */
 .section--deco {
@@ -1068,6 +1279,124 @@ p {
 .testimonial-card__role {
   font-size: .8rem;
   color: var(--gray-400);
+}
+
+/* ---------- Industries Grid (Homepage) ---------- */
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.industry-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .06);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.industry-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .25);
+}
+
+.industry-card__img {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+.industry-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+
+.industry-card:hover .industry-card__img img {
+  transform: scale(1.08);
+}
+
+.industry-card__body {
+  padding: var(--space-md);
+}
+
+.industry-card__icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.industry-card__body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+  color: #fff;
+}
+
+.industry-card__body p {
+  font-size: .85rem;
+  color: var(--gray-300);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .industries-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .industries-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Industry Page – Inline Section ---------- */
+.dealership-inline {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.dealership-inline__media img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.dealership-inline__list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0;
+}
+
+.dealership-inline__list li {
+  padding: .5rem 0;
+  padding-left: 1.6rem;
+  position: relative;
+  color: var(--gray-300);
+  font-size: .95rem;
+}
+
+.dealership-inline__list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .dealership-inline {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- CTA Banner ---------- */
