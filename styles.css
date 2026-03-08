@@ -179,7 +179,11 @@ p {
 }
 
 .section {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
+}
+
+.section--compact {
+  padding: var(--space-lg) 0;
 }
 
 .section--alt {
@@ -514,6 +518,12 @@ p {
   min-height: 100vh;
 }
 
+@media (min-width: 769px) {
+  .hero--carousel {
+    min-height: 88vh;
+  }
+}
+
 .carousel {
   position: absolute;
   inset: 0;
@@ -572,6 +582,13 @@ p {
   display: flex;
   align-items: center;
   padding-top: 72px;
+}
+
+@media (min-width: 769px) {
+  .carousel__slide .container {
+    height: 88vh;
+    min-height: 88vh;
+  }
 }
 
 .carousel__slide .hero__content {
@@ -929,6 +946,186 @@ p {
   }
 }
 
+/* Compact dealership strip (short “For Dealerships” block) */
+.dealership-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+.dealership-strip__text {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-body);
+  max-width: none;
+}
+
+.dealership-strip__text a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dealership-strip__text a:hover {
+  color: var(--primary-hover);
+}
+
+@media (min-width: 600px) {
+  .dealership-strip {
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* ---------- Content with image (problem section) ---------- */
+.content-with-image {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .content-with-image {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.content-with-image__media {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.content-with-image__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  min-height: 280px;
+}
+
+.content-with-image__content .section-title {
+  margin-bottom: var(--space-md);
+}
+
+.content-with-image__content p {
+  margin-bottom: var(--space-md);
+}
+
+.content-with-image__content .btn {
+  margin-top: var(--space-sm);
+}
+
+/* ---------- Service cards with images (Our BDC Services) ---------- */
+.service-cards-with-images {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.service-card-with-image {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+}
+
+@media (min-width: 768px) {
+  .service-card-with-image {
+    grid-template-columns: 42% 1fr;
+  }
+
+  .service-card-with-image:nth-child(even) .service-card-with-image__img {
+    order: 2;
+  }
+
+  .service-card-with-image:nth-child(even) .service-card-with-image__body {
+    order: 1;
+  }
+}
+
+.service-card-with-image__img {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.service-card-with-image__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.service-card-with-image__body {
+  padding: var(--space-lg);
+}
+
+.service-card-with-image__body h3 {
+  margin-bottom: var(--space-sm);
+  font-size: 1.35rem;
+}
+
+.service-card-with-image__body p {
+  font-size: .98rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: var(--space-md);
+  max-width: none;
+}
+
+.service-card-with-image__body .btn {
+  margin-top: 0;
+}
+
+/* ---------- Benefits strip (Why Choose Us) ---------- */
+.benefits-strip {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.benefits-strip__title {
+  margin-bottom: var(--space-md);
+  font-size: 1.75rem;
+}
+
+.benefits-strip__list {
+  list-style: none;
+  margin: 0 0 var(--space-lg);
+  padding: 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.benefits-strip__list li {
+  padding: var(--space-xs) 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 1rem;
+  color: var(--text-body);
+}
+
+.benefits-strip__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 /* Grid 4 on medium+ (for Pure Services cards) */
 .grid-4-md {
   grid-template-columns: repeat(2, 1fr);
@@ -982,6 +1179,93 @@ p {
 .proof-point strong {
   font-style: normal;
   color: var(--text-body);
+}
+
+/* ---------- Services pillars (What We Do) ---------- */
+.services-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .services-pillars {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.services-pillar {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.services-pillar:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gray-200);
+}
+
+.services-pillar__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--grad-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+
+.services-pillar__icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--deep-blue);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.services-pillar__title {
+  font-size: 1.35rem;
+  margin-bottom: var(--space-sm);
+  color: var(--navy);
+}
+
+.services-pillar__desc {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.services-pillar__list {
+  list-style: none;
+  margin-bottom: var(--space-md);
+}
+
+.services-pillar__list li {
+  font-size: .9rem;
+  color: var(--gray-600);
+  padding: var(--space-xs) 0;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.services-pillar__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 .pure-services-grid {
@@ -1415,7 +1699,7 @@ p {
   background: var(--grad-hero);
   background-size: 200% 200%;
   animation: heroShift 12s ease infinite;
-  padding: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
   text-align: center;
   position: relative;
   overflow: hidden;
