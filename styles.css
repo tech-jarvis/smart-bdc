@@ -201,6 +201,17 @@ p {
   color: var(--gray-200);
 }
 
+/* ---------- Textures / Patterns ---------- */
+.bg-pattern {
+  background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-pattern-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 .section--dark .section-label {
   color: var(--cyan);
 }
@@ -1292,7 +1303,7 @@ p {
   display: block;
   text-decoration: none;
   color: inherit;
-  background: var(--surface);
+  background: var(--navy);
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, .06);
@@ -1335,12 +1346,12 @@ p {
   font-size: 1.05rem;
   font-weight: 700;
   margin-bottom: var(--space-xs);
-  color: #fff;
+  color: var(--white);
 }
 
 .industry-card__body p {
   font-size: .85rem;
-  color: var(--gray-300);
+  color: var(--gray-200);
   line-height: 1.5;
   margin: 0;
 }
